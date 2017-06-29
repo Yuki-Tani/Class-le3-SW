@@ -11,9 +11,10 @@ open Syntax
 
 (* Ex3.2.3 によって && || を拡張*)
 %token CONJ DISJ
-
 (* Ex3.3.1 によって let in = を拡張*)
 %token LET IN EQ
+(* Ex3.4.1 によって fun ->を拡張*)
+%token FUN RARROW
 
 %start toplevel
 %type <Syntax.program> toplevel
@@ -31,10 +32,11 @@ Expr :
   | e=DJExpr { e }
  (* Ex3.3.1 によってlet-in式も式として扱う*)
   | e=LetExpr { e }
+ (* Ex3.4.1 によって関数宣言も式として扱う*)
+  | e=FunExpr { e }
 
 (* Ex3.2.3 によって拡張 *)
 (* 結合度は LT < CONJ(&&) < DISJ(||)*)
-
 DJExpr :
     l=DJExpr DISJ r=CJExpr { BinOp (Disj, l, r) } (*|| は 左結合の二項演算*)
   | e=CJExpr { e }
@@ -42,7 +44,6 @@ DJExpr :
 CJExpr :
     l=CJExpr CONJ r=LTExpr { BinOp (Conj, l, r) } (*&& は 左結合の二項演算*)
   | e=LTExpr { e }
-
 (* Ex3.2.3拡張ここまで  *)
 
 LTExpr : 
@@ -54,8 +55,15 @@ PExpr :
   | e=MExpr { e }
 
 MExpr : 
-    l=MExpr MULT r=AExpr { BinOp (Mult, l, r) }
-  | e=AExpr { e }
+    l=MExpr MULT r=AppExpr { BinOp (Mult, l, r) }
+  | e=AppExpr { e }
+
+(* Ex3.4.1 によって拡張 *)
+(* 結合度は最も強い*)
+AppExpr :
+    f=AppExpr x=AExpr { AppExp (f, x) } (*関数適応 は 左結合*)
+  | e=Aexpr { e }
+(* Ex3.4.1拡張ここまで*)
 
 AExpr :
     i=INTV { ILit i }

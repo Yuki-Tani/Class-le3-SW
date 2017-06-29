@@ -88,6 +88,6 @@ let _ = read_eval_print initial_env
    val - = 12
   # b;;　let-in式内の束縛のレンジはその式内のみ
   　<Error> Variable not bound: b (Eval.Error)
-  # let a = 5 in let b = a*2 in a*b;; let-in式は繋げていくことができる
+  # let a = 5 in let b = a*2 in a*b;; let-in式は繋げて書くことができる
    val - = 50
 *)

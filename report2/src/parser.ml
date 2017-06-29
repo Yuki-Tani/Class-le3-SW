@@ -1,5 +1,5 @@
 
-module MenhirBasics = struct
+module Basics = struct
   
   exception Error
   
@@ -33,10 +33,10 @@ module MenhirBasics = struct
   
 end
 
-include MenhirBasics
+include Basics
 
 let _eRR =
-  MenhirBasics.Error
+  Basics.Error
 
 type _menhir_env = {
   _menhir_lexer: Lexing.lexbuf -> token;
@@ -1185,7 +1185,7 @@ and toplevel : (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (
         _menhir_env._menhir_error <- true;
         _menhir_errorcase _menhir_env (Obj.magic _menhir_stack) MenhirState0) : 'freshtv12))
 
-# 219 "/export/home/015/a0151390/.opam/4.03.0/lib/menhir/standard.mly"
+# 220 "/home/yuki/.opam/4.03.0/lib/menhir/standard.mly"
   
 
 
